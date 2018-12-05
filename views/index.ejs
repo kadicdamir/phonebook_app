@@ -1,0 +1,12 @@
+<% include partials/header %>
+
+<h1>Phonebook</h1>
+
+<a href="/phonebook/new"> Add a new entry</a>
+
+<div>
+    <% entries.forEach(function(entry){ %>
+    <h4><%= entry.name %> - <%= entry.number %> - <%= entry.email %></h4>
+    <% }); %>
+</div>
+<% include partials/footer %>
