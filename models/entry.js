@@ -18,7 +18,7 @@ var mongoose = require("mongoose");
 var entrySchema = new mongoose.Schema({
     name: String,
     number: String,
-    email: String
+    email: String,
 });
 
 
