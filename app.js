@@ -4,8 +4,9 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     passport        = require("passport"),
     LocalStrategy   = require ("passport-local"),
-    User            = require("./models/user"),
-    Entry           = require("./models/entry");
+    Entry           = require("./models/entry"),
+    User            = require("./models/user");
+
     
 var phonebookRoutes = require("./routes/phonebook"),
     indexRoutes      = require("./routes/index");
@@ -28,8 +29,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req,res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.use(indexRoutes);
 app.use(phonebookRoutes);
+
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server started");
