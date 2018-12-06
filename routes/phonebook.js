@@ -1,13 +1,14 @@
-var express = require("express");
-var router  = express.Router();
-var Entry   = require("../models/entry");
-var User    = require("../models/user");
+var express     = require("express");
+var router      = express.Router();
+var Entry       = require("../models/entry");
+var User        = require("../models/user");
+var middleware  = require("../middleware");
 
 router.get("/", function(req, res){
    res.render("landing"); 
 });
 
-router.get("/phonebook", isLoggedIn, function(req,res){
+router.get("/phonebook", middleware.isLoggedIn, function(req,res){
     User.findById(req.user._id).populate("entries").exec(function(err, foundUser){
         if(err){
             console.log(err);
@@ -17,7 +18,9 @@ router.get("/phonebook", isLoggedIn, function(req,res){
     });
 });
 
-router.post("/phonebook", isLoggedIn,function(req,res){
+// POST ROUTE
+
+router.post("/phonebook", middleware.isLoggedIn,function(req,res){
     var name = req.body.name;
     var number = req.body.number;
     var email = req.body.email;
@@ -44,15 +47,42 @@ router.post("/phonebook", isLoggedIn,function(req,res){
     });
 });
       
-router.get("/phonebook/new", isLoggedIn, function(req,res){
+router.get("/phonebook/new", middleware.isLoggedIn, function(req,res){
     res.render("new.ejs");
 });
 
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
+// EDIT ROUTE
+
+router.get("/phonebook/:id/edit", middleware.checkOwnership, function(req,res){
+    Entry.findById((req.params.id),function(err, foundEntry){
+        if(err){
+            res.redirect("back");
+        } else {
+            res.render("edit", {entry:foundEntry});
+        }
+    });
+});
+
+
+router.put("/phonebook/:id", middleware.checkOwnership,function(req,res){
+    Entry.findByIdAndUpdate((req.params.id), req.body.entry, function(err,updatedEntry){
+        if(err){
+            res.redirect("back");
+        } else {
+            res.redirect("/phonebook");
+        }
+    });
+});
+
+// DELETE ROUTE
+router.delete("/phonebook/:id", middleware.checkOwnership, function(req,res){
+   Entry.findByIdAndRemove(req.params.id, function(err){
+       if(err){
+           res.redirect("back");
+       } else {
+           res.redirect("/phonebook");
+       }
+   });
+});
 
 module.exports = router;

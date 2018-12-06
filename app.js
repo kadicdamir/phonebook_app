@@ -4,6 +4,7 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     passport        = require("passport"),
     LocalStrategy   = require ("passport-local"),
+    methodOverride  = require("method-override"),
     Entry           = require("./models/entry"),
     User            = require("./models/user");
 
@@ -15,6 +16,7 @@ var phonebookRoutes = require("./routes/phonebook"),
 mongoose.connect("mongodb://localhost:27017/phonebook_app", {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
 
 app.use(require("express-session")({
     secret: "Bilo kakva recenica",

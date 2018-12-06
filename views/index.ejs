@@ -6,7 +6,13 @@
 
 <div>
     <% entry.forEach(function(entry){ %>
-    <h4><%= entry.name %> - <%= entry.number %> - <%= entry.email %></h4>
+    <li>
+        <%= entry.name %> - <%= entry.number %> - <%= entry.email %>
+        <a class="btn btn-xs btn-warning" href="/phonebook/<%=entry._id %>/edit">Edit</a>
+        <form action="/phonebook/<%=entry._id %>/?_method=DELETE" method="POST">
+            <input type="submit" class="btn btn-xs btn-danger" value="DELETE">
+        </form>
+    </li>
     <% }); %>
 </div>
 <% include partials/footer %>
