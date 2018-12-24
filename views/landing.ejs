@@ -1,10 +1,78 @@
 <% include partials/header %>
 
-<h1>Landing page!</h1>
+<!--<h1>Landing page!</h1>
 
 <a href="/phonebook">Go to phonebook</a>
 <a href="/register">Sign up</a>
-<a href="/login">Log in</a>
+<a href="/login">Log in</a>-->
+<a href="/auth/facebook">Login with Facebook</a>
+
+<div class="container mx-auto" display="block" style="width:500px">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="text-center center-block">
+        <!-- Button trigger login modal -->
+        <button type="button" class="btn btn-outline-primary btn-lg d-block" data-toggle="modal" data-target="#loginModal">
+          Login
+        </button>
+        <!-- Button trigger register modal -->
+        <button type="button" class="btn btn-outline-primary btn-lg d-block mt-1" data-toggle="modal" data-target="#registerModal">
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form action="/login" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="username" placeholder="username">
+                <input type="password" name="password" placeholder="password">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="/register" method="POST">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <input type="text" name="username" placeholder="username">
+                <input type="password" name="password" placeholder="password">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+          </div>
+    </form>
+    </div>
+  </div>
+</div>
+
 
 
 <% include partials/footer %>

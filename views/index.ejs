@@ -1,18 +1,92 @@
 <% include partials/header %>
 
-<h1>Phonebook</h1>
 
-<a href="/phonebook/new"> Add a new entry</a>
-
-<div>
-    <% entry.forEach(function(entry){ %>
-    <li>
-        <%= entry.name %> - <%= entry.number %> - <%= entry.email %>
-        <a class="btn btn-xs btn-warning" href="/phonebook/<%=entry._id %>/edit">Edit</a>
-        <form action="/phonebook/<%=entry._id %>/?_method=DELETE" method="POST">
-            <input type="submit" class="btn btn-xs btn-danger" value="DELETE">
-        </form>
-    </li>
-    <% }); %>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="d-inline"><%= currentUser.username %>'s Phonebook</h1>
+        <button type="button" class="btn btn-primary d-inline float-right" data-toggle="modal" data-target="#saveModal">Add a new contact</button>
+        <% entry.forEach(function(entry){ %>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action">
+                <%= entry.name %> - <%= entry.number %> - <%= entry.email %>
+                <div class="btn-group">
+                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#saveModal">Edit</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </div>
+            </a>
+        </div>
+        <% }); %>   
+    </div>
 </div>
+
+<!--ne radi - ne prenosi ejs u modal - naci fix-->
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form action="/phonebook/<%=entry._id %>/?_method=DELETE" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Delete <%= entry.name %>?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are u sure u want to delete <%=entry.name %> ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="submit" class="btn btn-primary">Yes</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<!-- Save Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <form action="/phonebook/save" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">New entry<%= entry.name %>?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <div class="modal-body">
+            <div class="form-group">
+                <input type="hidden" class="form-control" type="text" name="id" value= <%=entry.id %>>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input class="form-control"type="text" name="name" placeholder ="name">
+              </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="number" placeholder="number">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="email">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+<!--
+
+                    <form class="form-inline" action="/phonebook/</form><=entry._id %>/?_method=DELETE" method="POST">
+                        <input type="submit" class="btn btn-xs btn-danger" value="DELETE">
+                    </form>
+
+-->-->
 <% include partials/footer %>
