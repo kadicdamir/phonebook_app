@@ -1,17 +1,17 @@
 <% include partials/header %>
 
-
+<script src="/scripts/modals.js"></script>
 <div class="container">
     <div class="jumbotron">
         <h1 class="d-inline"><%= currentUser.username %>'s Phonebook</h1>
-        <button type="button" class="btn btn-primary d-inline float-right" data-toggle="modal" data-target="#saveModal">Add a new contact</button>
+        <button type="button" class="btn btn-primary d-inline float-right" onclick="openSaveModal(null)">Add a new contact</button>
         <% entry.forEach(function(entry){ %>
         <div class="list-group">
             <a class="list-group-item list-group-item-action">
                 <%= entry.name %> - <%= entry.number %> - <%= entry.email %>
                 <div class="btn-group">
-                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-target="#saveModal">Edit</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                    <button class="btn btn-xs btn-warning" onclick="openSaveModal('<%= JSON.stringify(entry) %>')">Edit</button>
+                    <button type="button" class="btn btn-danger" onclick="openDeleteModal('<%= JSON.stringify(entry) %>')">Delete</button>
                 </div>
             </a>
         </div>
@@ -26,7 +26,7 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="/phonebook/<%=entry._id %>/?_method=DELETE" method="POST">
+        <form id="deleteForm" action="/phonebook/<%=entry.id %>/?_method=DELETE" method="POST">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Delete <%= entry.name %>?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -49,7 +49,7 @@
 <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <form action="/phonebook/save" method="POST">
+        <form action="/phonebook" method="POST">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">New entry<%= entry.name %>?</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -58,17 +58,17 @@
           </div>
             <div class="modal-body">
             <div class="form-group">
-                <input type="hidden" class="form-control" type="text" name="id" value= <%=entry.id %>>
+                <input id="saveModalId" type="hidden" class="form-control" type="text" name="id" value= <%=entry.id %>>
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <input class="form-control"type="text" name="name" placeholder ="name">
+                <input id="saveModalName" class="form-control"type="text" name="name" placeholder ="name">
               </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="number" placeholder="number">
+                <input id="saveModalNumber" class="form-control" type="text" name="number" placeholder="number">
             </div>
             <div class="form-group">
-                <input class="form-control" type="email" name="email" placeholder="email">
+                <input id="saveModalEmail" class="form-control" type="email" name="email" placeholder="email">
             </div>
           </div>
           <div class="modal-footer">
