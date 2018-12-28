@@ -21,6 +21,7 @@
                                 <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a></li>
                                 <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#registerModal">Sign Up</a></li>
                             <% } else { %>
+                                <li class="nav-item"><a class="nav-link" href="/chat">Chat</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#">Signed in As <%=currentUser.username %></a></li>
                                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                             <% } %>

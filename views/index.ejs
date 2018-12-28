@@ -3,15 +3,15 @@
 <script src="/scripts/modals.js"></script>
 <div class="container">
     <div class="jumbotron">
-        <h1 class="d-inline"><%= currentUser.username %>'s Phonebook</h1>
-        <button type="button" class="btn btn-primary d-inline float-right" onclick="openSaveModal(null)">Add a new contact</button>
+        <h1 class="d-inline mb-1"><%= currentUser.username %>'s Phonebook</h1>
+        <button type="button" class="btn d-inline btn-outline-primary float-right" data-toggle="tooltip" data-placement="top" title="Add new" onclick="openSaveModal(null)"><i class="fas fa-plus-circle"></i></button>
         <% entry.forEach(function(entry){ %>
-        <div class="list-group">
+        <div class="list-group mt-1">
             <a class="list-group-item list-group-item-action">
                 <%= entry.name %> - <%= entry.number %> - <%= entry.email %>
-                <div class="btn-group">
-                    <button class="btn btn-xs btn-warning" onclick="openSaveModal('<%= JSON.stringify(entry) %>')">Edit</button>
-                    <button type="button" class="btn btn-danger" onclick="openDeleteModal('<%= JSON.stringify(entry) %>')">Delete</button>
+                <div class="btn-group float-right">
+                    <button class="btn btn-xs btn-outline-dark mx-1" data-toggle="tooltip" data-placement="top" title="Edit" onclick="openSaveModal('<%= JSON.stringify(entry) %>')"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-outline-dark" data-toggle="tooltip" data-placement="top" title="Delete" onclick="openDeleteModal('<%= JSON.stringify(entry) %>')"><i class="far fa-trash-alt"></i></button>
                 </div>
             </a>
         </div>
@@ -62,12 +62,15 @@
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <input id="saveModalName" class="form-control" type="text" name="name" placeholder ="name">
+                <label for="name">Name:</label>
+                <input id="saveModalName" required minlength="2" class="form-control" type="text" name="name" placeholder ="name">
               </div>
             <div class="form-group">
-                <input id="saveModalNumber" class="form-control" type="text" name="number" placeholder="number">
+                <label for="number">Number:</label>
+                <input id="saveModalNumber" required minlength="6" maxlength="15" pattern="[0-9]+" class="form-control" type="text" name="number" placeholder="number">
             </div>
             <div class="form-group">
+                <label for="email">Email:</label>
                 <input id="saveModalEmail" class="form-control" type="email" name="email" placeholder="email">
             </div>
           </div>

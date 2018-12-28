@@ -149,4 +149,11 @@ router.delete("/phonebook/:id", middleware.checkOwnership, function (req, res) {
     });
 });
 
+// CHAT ROUTE
+
+router.get('/chat', middleware.isLoggedIn, function(req, res){
+    var user = req.user;
+    res.render("chat", {user: user});
+});
+
 module.exports = router;

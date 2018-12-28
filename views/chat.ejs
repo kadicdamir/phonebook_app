@@ -1,0 +1,28 @@
+<% include partials/header %>
+<!--<h1 id="h1"> </h1>-->
+    <div class="msgDiv" style="overflow: auto">
+        <ul id="messages" style="margin-bottom:50px"></ul>
+    </div>
+    <form id="chatForm" action="">
+        <input id="hidden" type="hidden" type="text" value = <%= currentUser.username%>>
+        <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function() {
+           var name = $('#hidden').val();
+            var socket = io();
+            $('#chatForm').submit(function(){
+               socket.emit('chat message', name, $('#m').val());
+               $('#m').val('');
+               return false;
+            });
+            socket.on('chat message', function(msg){
+                $('#messages').append($('<li>').text(msg));
+            });
+        });
+
+
+    </script>
+    
+<% include partials/footer %>
